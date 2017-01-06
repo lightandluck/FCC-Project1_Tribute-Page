@@ -4,19 +4,58 @@ var margin = {
     bottom: 30,
     left: 50
 },
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    width = 900 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom
 
 // parse data / time
-var parseTime = d3.timeParse('%d-%b-%y');
+var parseTime = d3.timeParse('%d-%b-%y')
 
 // set ranges
-var x = d3.scaleTime().range([0, width]);
-var y = d3.scaleLinear().range([height, 0]);
+var x = d3.scaleTime().range([0, width])
+var y = d3.scaleLinear().range([height, 0])
 
 // define line
 var valueline = d3.line()
     .x((d) => { return x(d.date) })
-    .y((d) => { return y(d.close) });
+    .y((d) => { return y(d.close) })
+
+// append svg object
+// append group
+// move group
+var svg = d3.select('body').append('svg')
+    .attr('width', width + margin.left + margin.right)
+    .attr('height', height + margin.top + margin.bottom)
+    .append('g')
+    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+
+d3.csv('/data/data.csv', (error, data) => {
+    if (error) console.error(error)
+    console.log(data)
+    // format data
+    data.forEach((d) => {
+        d.date = parseTime(d.date)
+        //simple way to change in integer
+        d.close = +d.close
+    })
+
+    // scale range of data
+    x.domain(d3.extent(data, (d) => { return d.date }))
+    y.domain([0, d3.max(data, (d) => { return d.close })])
+
+    // add valueline path
+    svg.append('path')
+        .data([data])
+        .attr('class', 'line')
+        .attr('d', valueline)
+    
+    // add x axis
+    svg.append('g')
+        .attr('transform', 'translate(0, ' + height + ')')
+        .call(d3.axisBottom(x))
+
+    svg.append('g')
+        .call(d3.axisLeft(y))
+    
+})
 
 
