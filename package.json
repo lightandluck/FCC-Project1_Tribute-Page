@@ -1,0 +1,29 @@
+{
+  "name": "tribute-page",
+  "version": "1.0.0",
+  "description": "FCC project1",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-connect": "^5.0.0",
+    "gulp-watch": "^4.3.11"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-connect": "^5.0.0",
+    "gulp-watch": "^4.3.11"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lineophile/FCC-Project1_Tribute-Page.git"
+  },
+  "author": "Kevin Nguyen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lineophile/FCC-Project1_Tribute-Page/issues"
+  },
+  "homepage": "https://github.com/lineophile/FCC-Project1_Tribute-Page#readme"
+}
