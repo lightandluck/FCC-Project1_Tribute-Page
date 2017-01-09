@@ -16,8 +16,8 @@ var y = d3.scaleLinear().range([height, 0])
 
 // define line
 var valueline = d3.line()
-    .x((d) => { return x(d.date) })
-    .y((d) => { return y(d.close) })
+    .x(d => x(d.date))
+    .y(d => y(d.close))
 
 // append svg object
 // append group
@@ -28,19 +28,22 @@ var svg = d3.select('body').append('svg')
     .append('g')
     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
 
+
+// do stuff with data
 d3.csv('/data/data.csv', (error, data) => {
     if (error) console.error(error)
     console.log(data)
-    // format data
-    data.forEach((d) => {
+    // format data, objects are passed by ref and therefore can be changed
+    // unlike array of primitives
+    data.forEach(d => {
         d.date = parseTime(d.date)
         //simple way to change in integer
         d.close = +d.close
     })
 
     // scale range of data
-    x.domain(d3.extent(data, (d) => { return d.date }))
-    y.domain([0, d3.max(data, (d) => { return d.close })])
+    x.domain(d3.extent(data, d => d.date ))
+    y.domain([0, d3.max(data, d => d.close )])
 
     // add valueline path
     svg.append('path')
