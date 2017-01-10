@@ -1,5 +1,3 @@
-
-
 var margin = {
     top: 20,
     right: 20,
@@ -7,19 +5,19 @@ var margin = {
     left: 50
 },
     width = 900 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom
+    height = 900 - margin.top - margin.bottom
 
 // parse data / time
 var parseTime = d3.timeParse('%d-%b-%y')
 
 // set ranges
-var x = d3.scaleTime().range([0, width])
+var x = d3.scaleLinear().range([0, width])
 var y = d3.scaleLinear().range([height, 0])
 
 // define line
 var valueline = d3.line()
-    .x(d => x(d.date))
-    .y(d => y(d.close))
+    .x(d => x(d.discovery_date))
+    .y(d => y(d.discovery_order))
 
 // append svg object
 // append group
@@ -32,20 +30,20 @@ var svg = d3.select('body').append('svg')
 
 
 // do stuff with data
-d3.csv('/data/data.csv', (error, data) => {
+d3.json('/data/discovery-order.json', (error, data) => {
     if (error) console.error(error)
     console.log(data)
     // format data, objects are passed by ref and therefore can be changed
     // unlike array of primitives
-    data.forEach(d => {
-        d.date = parseTime(d.date)
-        //simple way to change in integer
-        d.close = +d.close
-    })
-
+    // data.forEach(d => {
+    //     d.date = parseTime(d.date)
+    //     //simple way to change in integer
+    //     d.close = +d.close
+    // })
+    data = data.elements
     // scale range of data
-    x.domain(d3.extent(data, d => d.date ))
-    y.domain([0, d3.max(data, d => d.close )])
+    x.domain([900, d3.max(data, d => d.discovery_date )])
+    y.domain([0, d3.max(data, d => d.discovery_order )])
 
     // add valueline path
     svg.append('path')

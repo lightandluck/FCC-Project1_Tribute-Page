@@ -25,15 +25,21 @@ gulp.task('css', () => {
         .pipe(gulp.dest('./build/css/'))
 });
 
+gulp.task('json', () => {
+    return gulp.src('./src/data/*.json')
+        .pipe(gulp.dest('./build/data/'))
+})
+
 gulp.task('watch', () => {
     gulp.watch('./src/index.html', ['html']);
     gulp.watch('./src/js/*.js', ['js']);
     gulp.watch('./src/css/*.css', ['css']);
+    gulp.watch('./src/data/*.json', ['json'])
 })
 
 gulp.task('reload', () => {
-        watch(['build/index.html', 'build/js/*.js', 'build/css/*.css'])
+        watch(['build/index.html', 'build/js/*.js', 'build/css/*.css', 'build/data/*.json'])
         .pipe(connect.reload());
 })
 
-gulp.task('default', ['webserver', 'html', 'js', 'css', 'watch', 'reload']);
+gulp.task('default', ['webserver', 'html', 'js', 'css', 'json', 'watch', 'reload']);
