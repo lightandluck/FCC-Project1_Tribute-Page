@@ -3,10 +3,6 @@ svg {
     padding: 25px;
 }
 
-.red {
-    fill: red;
-}
-
 .line {
     fill: none;
     stroke: steelblue;

@@ -11,7 +11,6 @@ var margin = {
 var parseTime = d3.timeParse('%Y')
 
 // set ranges
-// TODO: implement time for scale
 var x = d3.scaleTime().range([0, width])
 var y = d3.scaleLinear().range([height, 0])
 
@@ -36,7 +35,6 @@ d3.json('/data/discovery_order.json', (error, data) => {
     if (error) console.error(error)
     // format data, objects are passed by ref and therefore can be changed
     // unlike array of primitives
-    
     data = data.elements
     data.forEach(d => {
         d.discovery_date = parseTime(d.discovery_date)        
@@ -52,7 +50,7 @@ d3.json('/data/discovery_order.json', (error, data) => {
         .attr('class', 'line')
         .attr('d', valueline)
     
-    // add x axis
+    // add x-axis
     svg.append('g')
         .attr('transform', 'translate(0, ' + height + ')')
         .call(d3.axisBottom(x));
@@ -65,9 +63,25 @@ d3.json('/data/discovery_order.json', (error, data) => {
         .style('text-anchor', 'middle')
         .text('Year Discovered')
     
+    // add y-axis
     svg.append('g')
         .call(d3.axisLeft(y))
-    //TODO: add labels for each path
+
+    svg.append('text')
+        .attr('transform', 'rotate(-90)')
+        .attr('y', 0 - margin.left)
+        .attr('x', 0 - height/2)
+        .attr('dy', '1em')
+        .style('text-anchor', 'middle')
+        .text('Discovered Order')
+    
+    svg.append('text')
+        .attr('transform', `translate(${x_offset}, 0)`)
+        .style('text-anchor', 'middle')
+        .attr('font-size', '26')
+        .attr('font-family', 'sans-serif')
+        .text('Chronological Rate of Acquisition of Chemical Elements')
+    
 })
 
 
