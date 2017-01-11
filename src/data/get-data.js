@@ -18,7 +18,7 @@ jsdom.env({
       while (row = tables[i].rows[r++]) {
         if (row.cells[1].textContent) { //skip blank files
           let date = (row.cells[2].textContent.includes('BCE')) 
-            ? '1000' : row.cells[2].textContent.substring(0, 4)
+            ? '1250' : row.cells[2].textContent.substring(0, 4)
           let element = {
             name: row.cells[1].textContent,
             number: row.cells[0].textContent,
@@ -30,7 +30,11 @@ jsdom.env({
       }
     }
     
-    fs.writeFile('discovery.json', JSON.stringify(data), (err) => {
+    data.elements.forEach((element, index) => {
+      element.discovery_order = index + 1
+    })
+
+    fs.writeFile('discovery_order.json', JSON.stringify(data), (err) => {
       if (err) throw err
       console.log('File saved')
     })

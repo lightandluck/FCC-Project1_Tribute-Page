@@ -8,11 +8,11 @@ var margin = {
     height = 1200 - margin.top - margin.bottom
 
 // parse data / time
-var parseTime = d3.timeParse('%d-%b-%y')
+var parseTime = d3.timeParse('%Y')
 
 // set ranges
 // TODO: implement time for scale
-var x = d3.scaleLinear().range([0, width])
+var x = d3.scaleTime().range([0, width])
 var y = d3.scaleLinear().range([height, 0])
 
 // define line
@@ -36,14 +36,14 @@ d3.json('/data/discovery_order.json', (error, data) => {
     if (error) console.error(error)
     // format data, objects are passed by ref and therefore can be changed
     // unlike array of primitives
-    // data.forEach(d => {
-    //     d.date = parseTime(d.date)
-    //     //simple way to change in integer
-    //     d.close = +d.close
-    // })
+    
     data = data.elements
+    data.forEach(d => {
+        d.discovery_date = parseTime(d.discovery_date)        
+    })
+
     // scale range of data
-    x.domain([900, d3.max(data, d => d.discovery_date )])
+    x.domain([parseTime("1210"), d3.max(data, d => d.discovery_date )])
     y.domain([0, d3.max(data, d => d.discovery_order )])
 
     // add valueline path
@@ -55,8 +55,17 @@ d3.json('/data/discovery_order.json', (error, data) => {
     // add x axis
     svg.append('g')
         .attr('transform', 'translate(0, ' + height + ')')
-        .call(d3.axisBottom(x))
-
+        .call(d3.axisBottom(x));
+    
+    // add x label
+    let x_offset = width/2
+    let y_offset = height + margin.top + 20
+    svg.append('text')
+        .attr('transform', `translate(${x_offset}, ${y_offset})`)
+        .style('text-anchor', 'middle')
+        .text('Year Discovered')
+    
+    // add y axis
     svg.append('g')
         .call(d3.axisLeft(y))
     //TODO: add labels for each path
