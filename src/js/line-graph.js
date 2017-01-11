@@ -65,7 +65,6 @@ d3.json('/data/discovery_order.json', (error, data) => {
         .style('text-anchor', 'middle')
         .text('Year Discovered')
     
-    // add y axis
     svg.append('g')
         .call(d3.axisLeft(y))
     //TODO: add labels for each path
