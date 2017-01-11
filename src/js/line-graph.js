@@ -4,13 +4,14 @@ var margin = {
     bottom: 30,
     left: 50
 },
-    width = 900 - margin.left - margin.right,
-    height = 900 - margin.top - margin.bottom
+    width = 1200 - margin.left - margin.right,
+    height = 1200 - margin.top - margin.bottom
 
 // parse data / time
 var parseTime = d3.timeParse('%d-%b-%y')
 
 // set ranges
+// TODO: implement time for scale
 var x = d3.scaleLinear().range([0, width])
 var y = d3.scaleLinear().range([height, 0])
 
@@ -18,6 +19,7 @@ var y = d3.scaleLinear().range([height, 0])
 var valueline = d3.line()
     .x(d => x(d.discovery_date))
     .y(d => y(d.discovery_order))
+    .curve(d3.curveStepAfter)
 
 // append svg object
 // append group
@@ -30,9 +32,8 @@ var svg = d3.select('body').append('svg')
 
 
 // do stuff with data
-d3.json('/data/discovery-order.json', (error, data) => {
+d3.json('/data/discovery_order.json', (error, data) => {
     if (error) console.error(error)
-    console.log(data)
     // format data, objects are passed by ref and therefore can be changed
     // unlike array of primitives
     // data.forEach(d => {
@@ -58,7 +59,7 @@ d3.json('/data/discovery-order.json', (error, data) => {
 
     svg.append('g')
         .call(d3.axisLeft(y))
-    
+    //TODO: add labels for each path
 })
 
 
