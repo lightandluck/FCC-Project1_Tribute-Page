@@ -7,7 +7,7 @@ elements.forEach((element, index) => {
 })
 
 disc.elements = elements
-fs.writeFile('discovery-order.json', JSON.stringify(disc), (err) => {
+fs.writeFile('discovery_order.json', JSON.stringify(disc), (err) => {
   if (err) throw err
   console.log('saved')
 })
