@@ -1,11 +1,11 @@
 var margin = {
     top: 20,
-    right: 20,
+    right: 80,
     bottom: 30,
     left: 50
 },
     width = 1200 - margin.left - margin.right,
-    height = 1200 - margin.top - margin.bottom
+    height = 1600 - margin.top - margin.bottom
 
 // parse data / time
 var parseTime = d3.timeParse('%Y')
@@ -23,7 +23,7 @@ var valueline = d3.line()
 // append svg object
 // append group
 // move group
-var svg = d3.select('body').append('svg')
+var svg = d3.select('main').append('svg')
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     .append('g')
@@ -78,10 +78,26 @@ d3.json('/data/discovery_order.json', (error, data) => {
     svg.append('text')
         .attr('transform', `translate(${x_offset}, 0)`)
         .style('text-anchor', 'middle')
-        .attr('font-size', '26')
+        .attr('font-size', '2em')
         .attr('font-family', 'sans-serif')
         .text('Chronological Rate of Acquisition of Chemical Elements')
     
+    svg.append('g')
+        .classed('g-element-labels', true)
+        .selectAll('text')
+        .data(data)
+        .enter()
+        .append('text')
+        .attr('x', (d) => x(d.discovery_date) + 5)
+        .attr('y', (d) => y(d.discovery_order) + 12)
+        .text((d) => `${d.number}  ${d.name}`)
+        // .on('mouseover', (d) => {
+        //     // let xPosition = parseFloat(d3.select(this).attr("x"));
+        //     // let yPosition = parseFloat(d3.select(this).attr("y"));
+        //     // console.log(xPosition + ',' + yPosition)
+        //     //TODO: figure out how to get THIS properly, keep on getting window
+        //     d3.select(this).style('fill', 'red')
+        // })
 })
 
 

@@ -22,7 +22,8 @@ jsdom.env({
           let element = {
             name: row.cells[1].textContent,
             number: row.cells[0].textContent,
-            discovery_date: date
+            discovery_date: date,
+            notes: row.cells[6].textContent
           }
     
           data.elements.push(element)

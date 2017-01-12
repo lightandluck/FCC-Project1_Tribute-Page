@@ -8,3 +8,9 @@ svg {
     stroke: steelblue;
     stroke-width: 2px;
 }
+
+.g-element-labels text {
+    font-family: sans-serif;
+    font-size: 0.7em;
+    text-transform: uppercase;
+}
