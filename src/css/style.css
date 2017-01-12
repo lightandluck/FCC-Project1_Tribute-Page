@@ -9,8 +9,10 @@ svg {
     stroke-width: 2px;
 }
 
-.g-element-labels text {
+g text {
     font-family: sans-serif;
+}
+.g-element-labels text {
     font-size: 0.7em;
     text-transform: uppercase;
 }

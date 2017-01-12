@@ -27,7 +27,7 @@ var svg = d3.select('main').append('svg')
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     .append('g')
-    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+    .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
 
 // do stuff with data
@@ -52,9 +52,13 @@ d3.json('/data/discovery_order.json', (error, data) => {
     
     // add x-axis
     svg.append('g')
-        .attr('transform', 'translate(0, ' + height + ')')
-        .call(d3.axisBottom(x));
-    
+        .attr('transform', `translate(0, ${height})`)
+        .call(d3.axisBottom(x))
+
+    svg.append('g')
+        .attr('transform', `translate(0, 0)`)
+        .call(d3.axisTop(x))
+
     // add x label
     let x_offset = width/2
     let y_offset = height + margin.top + 20
@@ -75,12 +79,18 @@ d3.json('/data/discovery_order.json', (error, data) => {
         .style('text-anchor', 'middle')
         .text('Discovered Order')
     
+    
     svg.append('text')
-        .attr('transform', `translate(${x_offset}, 0)`)
-        .style('text-anchor', 'middle')
-        .attr('font-size', '2em')
-        .attr('font-family', 'sans-serif')
-        .text('Chronological Rate of Acquisition of Chemical Elements')
+        .attr('transform', `translate(${margin.left * 2}, ${margin.top * 6})`)
+        .attr('font-size', '1.5em')
+        .append('svg:tspan')
+        .attr('x', 0)
+        .attr('dy', 25)
+        .text('Chronological Rate of Acquisition')
+        .append('svg:tspan')
+        .attr('x', 0)
+        .attr('dy', 25)
+        .text('of Chemical Elements')
     
     svg.append('g')
         .classed('g-element-labels', true)
