@@ -101,13 +101,22 @@ d3.json('/data/discovery_order.json', (error, data) => {
         .attr('x', (d) => x(d.discovery_date) + 5)
         .attr('y', (d) => y(d.discovery_order) + 12)
         .text((d) => `${d.number}  ${d.name}`)
-        // .on('mouseover', (d) => {
-        //     // let xPosition = parseFloat(d3.select(this).attr("x"));
-        //     // let yPosition = parseFloat(d3.select(this).attr("y"));
-        //     // console.log(xPosition + ',' + yPosition)
-        //     //TODO: figure out how to get THIS properly, keep on getting window
-        //     d3.select(this).style('fill', 'red')
-        // })
+        
+
+    d3.select('.g-element-labels')
+        .selectAll('text')
+        .on('mouseover', function (d, i) {
+            let xPosition = parseFloat(d3.select(this).attr("x"));
+            let yPosition = parseFloat(d3.select(this).attr("y"));
+            console.log(xPosition + ',' + yPosition)
+
+            // this would've worked
+            let $this = d3.event.currentTarget
+
+            //NOTE: Arrow function (=>) causes bug where 'this' is global window object
+            d3.select($this).style('fill', 'red')
+        })
+        
 })
 
 
