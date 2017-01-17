@@ -106,15 +106,22 @@ d3.json('/data/discovery_order.json', (error, data) => {
     d3.select('.g-element-labels')
         .selectAll('text')
         .on('mouseover', function (d, i) {
-            let xPosition = parseFloat(d3.select(this).attr("x"));
-            let yPosition = parseFloat(d3.select(this).attr("y"));
-            console.log(xPosition + ',' + yPosition)
-
-            // this would've worked
-            let $this = d3.event.currentTarget
-
-            //NOTE: Arrow function (=>) causes bug where 'this' is global window object
-            d3.select($this).style('fill', 'red')
+            let xPosition = Math.trunc(parseFloat(d3.select(this).attr("x")))
+            let yPosition = Math.trunc(parseFloat(d3.select(this).attr("y")))
+            
+            d3.select('.tooltip')
+                .style('left', `${xPosition-200}px`)
+                .style('top', `${yPosition}px`)
+                .classed('hidden', false)
+            
+            d3.select(this).style('fill', 'red')
+            
+            d3.select('.element_name').text(d.name)
+            d3.select('.note').text(d.notes)
+        })
+        .on('mouseout', function(d, i) {
+            d3.select('.tooltip').classed('hidden', true)
+            d3.select(this).style('fill', 'black')
         })
         
 })
