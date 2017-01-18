@@ -5,7 +5,7 @@ var margin = {
     left: 50
 },
     width = 1200 - margin.left - margin.right,
-    height = 1600 - margin.top - margin.bottom
+    height = 1200 - margin.top - margin.bottom
 
 // parse data / time
 var parseTime = d3.timeParse('%Y')
@@ -99,9 +99,8 @@ d3.json('/data/discovery_order.json', (error, data) => {
         .enter()
         .append('text')
         .attr('x', (d) => x(d.discovery_date) + 5)
-        .attr('y', (d) => y(d.discovery_order) + 12)
+        .attr('y', (d) => y(d.discovery_order) + 10)
         .text((d) => `${d.number}  ${d.name}`)
-        
 
     d3.select('.g-element-labels')
         .selectAll('text')
@@ -114,6 +113,7 @@ d3.json('/data/discovery_order.json', (error, data) => {
                 .style('top', `${yPosition}px`)
                 .classed('hidden', false)
             
+            rePositionTooltip(xPosition, yPosition)
             d3.select(this).style('fill', 'red')
             
             d3.select('.element_name').text(d.name)
@@ -123,7 +123,29 @@ d3.json('/data/discovery_order.json', (error, data) => {
             d3.select('.tooltip').classed('hidden', true)
             d3.select(this).style('fill', 'black')
         })
-        
 })
+
+function rePositionTooltip(xPosition, yPosition) {
+    let box = document.getElementsByClassName('tooltip')[0]
+    let viewable = isElementInViewport(box)
+
+    xPosition = viewable ? xPosition - 200 : xPosition + 200
+    yPosition = viewable ? yPosition : yPosition - 150
+
+    d3.select('.tooltip')
+        .style('left', `${xPosition}px`)
+        .style('top', `${yPosition}px`)
+}
+
+function isElementInViewport (el) {
+    var rect = el.getBoundingClientRect();
+
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+    );
+}
 
 
