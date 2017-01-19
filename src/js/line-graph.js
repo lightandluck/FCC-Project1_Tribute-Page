@@ -31,7 +31,7 @@ var svg = d3.select('main').append('svg')
 
 
 // do stuff with data
-d3.json('/data/discovery_order.json', (error, data) => {
+d3.json('/data/discovery_order.json', function (error, data) {
     if (error) console.error(error)
     // format data, objects are passed by ref and therefore can be changed
     // unlike array of primitives
@@ -125,7 +125,7 @@ d3.json('/data/discovery_order.json', (error, data) => {
         })
 })
 
-function rePositionTooltip(xPosition, yPosition) {
+function rePositionTooltip (xPosition, yPosition) {
     let box = document.getElementsByClassName('tooltip')[0]
     let viewable = isElementInViewport(box)
 
@@ -143,8 +143,8 @@ function isElementInViewport (el) {
     return (
         rect.top >= 0 &&
         rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && 
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth) 
     );
 }
 
